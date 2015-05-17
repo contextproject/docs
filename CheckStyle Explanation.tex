@@ -1,0 +1,96 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\title{CheckStyle Explanation}
+\author{Stefan Boodt 4322258\\Arthur\\Tomas\\Daan\\Jordy}
+\begin{document}
+\maketitle
+\begin{abstract}
+This document describes the use of our CheckStyle design decissions.
+\end{abstract}
+\tableofcontents
+\newpage
+\chapter{Explanation of differences}
+
+This chapter describes our differences with the default CheckStyle configuration of google style.
+
+\section{General}
+\begin{itemize}
+
+\item The tabsize is set to 4 because 4 is the default indentation for java.
+
+\item Disallows the use of whitespaces in generics. List< Integer > is disallowed.
+
+\item Tabs are allowed in the sourcecode as they are an easy way to indent that is commonly used by editors behind the scenes.
+
+\end{itemize}
+
+\section{Code}
+
+\begin{itemize}
+
+\item CheckStyle should ignore inline conditionals as they are not always bad. The team can decide for themselves if the inline conditional is readable enough to pass.
+
+\item Every equals method should have an @Override. This is inspired by FindBugs. The reason is that the code then throws errors on not standard equals methods that are written as if they are equals(Object).
+
+\item Default should be the last case in a switch statement because this is more readable.
+
+\item It is a CheckStyle error to catch Exception, RunTimeException and Throwable since these catch things that should not be catched, such as OutOfMemoryExceptions and RunTimeExceptions. A RuntimeException is not to be catched.
+
+\item All integers are not considered by the magic numbers check. This comes from the high usage of these numbers in the test case and the waste of memory that comes from initializing that many variables simply to use as the expected outcome. Reviews of pull requests should mention magic numbers in non test classes.
+
+\item No classes may appear in a default package as that means that they cannot be imported. CheckStyle throws errors on this.
+
+\item The override of the method finalize should include a super call because of what finalize does. CheckStyle is configured to do something about this.
+
+\item CheckStyle has to throw an error if the cyclomatic complexity of a method is more than 10.
+
+\item CheckStyle should throw just a warning for non final parameters in a method or constructor definition.
+
+\item Long literals should contain a uppercase L. Not a lowercase one since that resembles an 1. CheckStyle should enforce this.
+
+\item CheckStyle should ignore its design for extension argument since this requires methods to be final, while we learned that final methods should be used less during Software Engineering Methods.
+
+\end{itemize}
+
+\section{Javadoc}
+
+\begin{itemize}
+
+\item Missing @Override are seen as errors when @InheritDoc is used because the source cannot be found.
+
+\item Annotations should appear between javadoc and method name because of convention. CheckStyle should throw an error if it does not.
+
+\item The package annotation is set as well to disallow the javadoc documentation for packages outside the package-info.java file.
+
+\item The non empty @ clause is reported as CheckStyle error because we find it not very nice that someone does not write something behind @return or @param.
+
+\item The javadoc paragraphs is set so that you need to write a whiteline and a <p> for every paragraph. This keeps multi paragraph comments readable.
+
+\end{itemize}
+
+\section{Import}
+
+\begin{itemize}
+
+\item We added an import order check to check if the imports are alfabetical and there is a white line between the groups.
+
+\end{itemize}
+
+\section{Temporary Checking Commands}
+
+This explains how you can manually alter CheckStyle output in the code. Usage of these commands should be explained.
+
+\begin{itemize}
+
+\item To stop the CheckStyle tests from running you can write CHECKSTYLE:ON in your comments.
+
+\item To restart CheckStyle tests you write CHECKSTYLE:OFF in a comment.
+
+\item Alternatively the @SuppressWarnings can be used for this.
+
+\end{itemize}
+
+\end{document}
