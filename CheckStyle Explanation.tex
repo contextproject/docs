@@ -53,6 +53,8 @@ This chapter describes our differences with the default CheckStyle configuration
 
 \item CheckStyle should ignore its design for extension argument since this requires methods to be final, while we learned that final methods should be used less during Software Engineering Methods.
 
+\item Maximal line length is set to 100 as this is more useful for new IDEs, in contrast to the standard 80 because of the default command line width.
+
 \end{itemize}
 
 \section{Javadoc}
@@ -61,13 +63,13 @@ This chapter describes our differences with the default CheckStyle configuration
 
 \item Missing @Override are seen as errors when @InheritDoc is used because the source cannot be found.
 
-\item Annotations should appear between javadoc and method name because of convention. CheckStyle should throw an error if it does not.
+\item Annotations should appear between javadoc and method name because of convention. CheckStyle should throw an error if it does not. Removed from the maven version.
 
 \item The package annotation is set as well to disallow the javadoc documentation for packages outside the package-info.java file.
 
-\item The non empty @ clause is reported as CheckStyle error because we find it not very nice that someone does not write something behind @return or @param.
+\item The non empty @ clause is reported as CheckStyle error because we find it not very nice that someone does not write something behind @return or @param. Removed from maven version.
 
-\item The javadoc paragraphs is set so that you need to write a whiteline and a <p> for every paragraph. This keeps multi paragraph comments readable.
+\item The javadoc paragraphs is set so that you need to write a whiteline and a <p> for every paragraph. This keeps multi paragraph comments readable. Removed from maven version.
 
 \end{itemize}
 
@@ -75,7 +77,7 @@ This chapter describes our differences with the default CheckStyle configuration
 
 \begin{itemize}
 
-\item We added an import order check to check if the imports are alfabetical and there is a white line between the groups.
+\item We added an import order check to check if the imports are alfabetical and there is a white line between the groups. Only applies for static imports in the non maven version.
 
 \end{itemize}
 
@@ -90,6 +92,24 @@ This explains how you can manually alter CheckStyle output in the code. Usage of
 \item To restart CheckStyle tests you write CHECKSTYLE:OFF in a comment.
 
 \item Alternatively the @SuppressWarnings can be used for this.
+
+\end{itemize}
+
+\section{Two different CheckStyle files}
+
+As you might have noticed there are 2 different CheckStyle files. This is due to the fact that mavens current plugin for CheckStyle (version 2.14) is using CheckStyle version 5.8 while the current version of CheckStyle, where the CheckStyle.xml is based on, is version 6.6. The current version of the eclipse-cs plugin, which integrates CheckStyle with Eclipse is using version 6.5. Please note that all java 8 syntax will be reported by maven checkstyle as java 8 support was added to CheckStyle in version 5.9. Due to these version differences different files are required as some tests have been added since checkstyle 6.0. We decided to remove all the tests from the CheckStyle for maven file that were not compatible with checkstyle 5.8.
+
+Since tests only have been removed from the maven version of the file, the maven results for checkstyle are incomplete, but do not find any new errors. However since only 3 checks have been removed for this the view is still largely complete.
+
+\chapter{References}
+
+\begin{itemize}
+
+\item eclipse-cs version retrieved from: http://eclipse-cs.sourceforge.net/\#!/ on 20-05-2015
+
+\item maven-checkstyle version retrieved from: http://blog.soebes.de/blog/2015/02/05/apache-maven-checkstyle-plugin-version-2-dot-14-released/ on 20-05-2015
+
+\item checkstyle version differences retrieved from: http://checkstyle.sourceforge.net/releasenotes.html on 20-05-2015
 
 \end{itemize}
 
