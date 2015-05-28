@@ -4,54 +4,59 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \title{CheckStyle Explanation}
-\author{Stefan Boodt 4322258\\Arthur\\Tomas\\Daan\\Jordy}
+\author{Stefan Boodt 4322258\\Arthur Hovenesyan \\Tomas\\Daan Schipper\\Jordy}
 \begin{document}
 \maketitle
 \begin{abstract}
-This document describes the use of our CheckStyle design decissions.
+This document describes the use of our CheckStyle design decisions.
 \end{abstract}
 \tableofcontents
 \newpage
 \chapter{Explanation of differences}
 
-This chapter describes our differences with the default CheckStyle configuration of google style.
+This chapter describes the differences between the default CheckStyle configuration google style and the configuration our project uses.
 
 \section{General}
+
+This section describes the general differences. Which consists of differences in indentation, as well as any other general subject that is not covered elsewhere.
+
 \begin{itemize}
 
-\item The tabsize is set to 4 because 4 is the default indentation for java.
+\item The indentation level is set to 4 because 4 is the default indentation for Java.
 
-\item Disallows the use of whitespaces in generics. List< Integer > is disallowed.
+\item We disallow the use of whitespaces in generics. So for instance List$<$ Integer $>$ is disallowed.
 
-\item Tabs are allowed in the sourcecode as they are an easy way to indent that is commonly used by editors behind the scenes.
+\item The usage of tabs is allowed for indentation. This is because editors often use them behind the scenes.
 
 \end{itemize}
 
 \section{Code}
 
+This section describes the diffences in settings considering the code itself.
+
 \begin{itemize}
 
-\item CheckStyle should ignore inline conditionals as they are not always bad. The team can decide for themselves if the inline conditional is readable enough to pass.
+\item CheckStyle should ignore inline conditionals as they are not bad in all situations. The team can decide for themselves if a inline conditional is readable enough.
 
-\item Every equals method should have an @Override. This is inspired by FindBugs. The reason is that the code then throws errors on not standard equals methods that are written as if they are equals(Object).
+\item Every equals method should have an @Override. This is inspired by FindBugs. The reason behind this is that the code can then throws errors if the user accidentally overrides a not standard equals methods. Which means it can throw an error if you accidentally write equals(Snippet) instead of equals(Object).
 
-\item Default should be the last case in a switch statement because this is more readable.
+\item Default should be the last case in a switch statement because this makes the code more readable.
 
-\item It is a CheckStyle error to catch Exception, RunTimeException and Throwable since these catch things that should not be catched, such as OutOfMemoryExceptions and RunTimeExceptions. A RuntimeException is not to be catched.
+\item It is a CheckStyle error to catch an Exception, RunTimeException and Throwable anywhere in the code, since these catch things that should not be catched, such as OutOfMemoryExceptions and RunTimeExceptions. A RuntimeException should not to be catched as they are exceptions that make notion that something went wrong after the code was compiled. All other exceptions should be catched since they do not appear at runtime. 
 
-\item All integers are not considered by the magic numbers check. This comes from the high usage of these numbers in the test case and the waste of memory that comes from initializing that many variables simply to use as the expected outcome. Reviews of pull requests should mention magic numbers in non test classes.
+\item All integers are not considered by the magic numbers check. This is because of the high usage of these integers in the test case and the waste of memory that comes from initializing that many variables simply to use as the expected outcome. Reviews of pull requests should mention magic numbers in non test classes.
 
-\item No classes may appear in a default package as that means that they cannot be imported. CheckStyle throws errors on this.
+\item No classes are allowed to be in the default package as that means that they cannot be imported. CheckStyle should throw errors on this.
 
 \item The override of the method finalize should include a super call because of what finalize does. CheckStyle is configured to do something about this.
 
 \item CheckStyle has to throw an error if the cyclomatic complexity of a method is more than 10.
 
-\item CheckStyle should throw just a warning for non final parameters in a method or constructor definition.
+\item CheckStyle should throw just a warning for non final parameters in a method or constructor definition. The reason behind this is that the input cannot be changed in another function call and when the final is forgotten then people can start to think they can be altered. It also makes some methods work weird if you forget the final modifier and accidentally change the parameter value.
 
-\item Long literals should contain a uppercase L. Not a lowercase one since that resembles an 1. CheckStyle should enforce this.
+\item Long literals should contain an uppercase L and not a lowercase one since the lowercase l resembles a 1. CheckStyle should enforce this.
 
-\item CheckStyle should ignore its design for extension argument since this requires methods to be final, while we learned that final methods should be used less during Software Engineering Methods.
+\item CheckStyle should ignore it's design for extension argument since this requires methods to be final. While we learned during Software Engineering Methods that final methods should be used less.
 
 \item Maximal line length is set to 100 as this is more useful for new IDEs, in contrast to the standard 80 because of the default command line width.
 
@@ -59,31 +64,35 @@ This chapter describes our differences with the default CheckStyle configuration
 
 \section{Javadoc}
 
+This section focusses on CheckStyle checks that are considering the style of the javadoc comments.
+
 \begin{itemize}
 
-\item Missing @Override are seen as errors when @InheritDoc is used because the source cannot be found.
+\item Missing @Override are seen as errors when @InheritDoc is used because the method does not acknowledge 
 
-\item Annotations should appear between javadoc and method name because of convention. CheckStyle should throw an error if it does not. Removed from the maven version.
+\item Annotations should appear between the javadoc and the method name because of convention. CheckStyle should throw an error if an annotation does not. This check is removed from the maven version.
 
 \item The package annotation is set as well to disallow the javadoc documentation for packages outside the package-info.java file.
 
-\item The non empty @ clause is reported as CheckStyle error because we find it not very nice that someone does not write something behind @return or @param. Removed from maven version.
+\item The non empty @ clause is reported as a CheckStyle error because we find it bad practice to write nothing behind @return or @param. This check was removed from maven version.
 
-\item The javadoc paragraphs is set so that you need to write a whiteline and a $<$p$>$ for every paragraph. This keeps multi paragraph comments readable. Removed from maven version.
+\item The javadoc paragraphs is set so that you need to write a white line and a $<$p$>$ for every paragraph in the javadoc documentation. This keeps multi paragraph comments readable. This check was removed from maven version.
 
 \end{itemize}
 
 \section{Import}
 
+This section describes the differences between the default configuration and our own that consider the imports of classes in the code. 
+
 \begin{itemize}
 
-\item We added an import order check to check if the imports are alfabetical and there is a white line between the groups. Only applies for static imports in the non maven version.
+\item We added an import order check to check if the imports are alphabetical and there is a white line between the groups. Static imports are ignored for their order in the maven version.
 
 \end{itemize}
 
 \section{Temporary Checking Commands}
 
-This explains how you can manually alter CheckStyle output in the code. Usage of these commands should be explained.
+This section explains how you can manually alter CheckStyle output in the code. Usage of these commands should be explained.
 
 \begin{itemize}
 
@@ -91,15 +100,15 @@ This explains how you can manually alter CheckStyle output in the code. Usage of
 
 \item To restart CheckStyle tests you write CHECKSTYLE:OFF in a comment.
 
-\item Alternatively the @SuppressWarnings can be used for this.
+\item Alternatively the @SuppressWarnings can be used to deactivate CheckStyle.
 
 \end{itemize}
 
 \section{Two different CheckStyle files}
 
-As you might have noticed there are 2 different CheckStyle files. This is due to the fact that mavens current plugin for CheckStyle (version 2.14) is using CheckStyle version 5.8 while the current version of CheckStyle, where the CheckStyle.xml is based on, is version 6.6. The current version of the eclipse-cs plugin, which integrates CheckStyle with Eclipse is using version 6.5. Please note that all java 8 syntax will be reported by maven checkstyle as java 8 support was added to CheckStyle in version 5.9. Due to these version differences different files are required as some tests have been added since checkstyle 6.0. We decided to remove all the tests from the CheckStyle for maven file that were not compatible with checkstyle 5.8.
+As you might have noticed there are 2 different CheckStyle files. This is due to the fact that mavens current plugin for CheckStyle (version 2.14) is using CheckStyle version 5.8 while the current version of CheckStyle, where the CheckStyle.xml is based on, is version 6.6. The current version of the eclipse-cs plugin, which integrates CheckStyle with Eclipse is using version 6.5. Please note that all java 8 syntax will be reported by maven CheckStyle as java 8 support was added to CheckStyle in version 5.9. Due to these version differences different files are required as some tests have been added or removed since CheckStyle 6.0. We decided to remove all the tests from the CheckStyle for maven file that are not compatible with CheckStyle 5.8.
 
-Since tests only have been removed from the maven version of the file, the maven results for checkstyle are incomplete, but do not find any new errors. However since only 3 checks have been removed for this the view is still largely complete.
+Since tests only have been removed from the maven version of the file, the maven results for CheckStyle are incomplete, but do not find any new errors. However there are only 4 checks that have been removed because of this so the view from the maven file is still largely complete.
 
 \chapter{References}
 
