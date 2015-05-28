@@ -1,0 +1,19 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\author{Stefan Boodt 4322258\\Arthur Hovenesyan\\Daan Schipper\\Tomas\\Jordy}
+\title{Project errata}
+\begin{document}
+\maketitle
+\tableofcontents
+\begin{abstract}
+This document describes some errata on our project.and contains an explanation on why they are there, instead of being solved.
+\end{abstract}
+\chapter{Errors in FindBugs and the low test coverage}
+We are currently having issues with both FindBugs and Cobertura when it comes to the reporting. Allow us to explain it in this document one last time. The Play framework automatically creates classes when running. These classes are necessary for Play to work properly. Although we have spent time searching for ways to turn it off, the generated classes show up in the reports. However as we did not write them, and since they (re)write themselves every time, we cannot delete or change them. Therefore there is nothing we can do but swallow that there are a few classes that keep tormenting these reports. In general the FindBugs finds that there are naming conventions broken by them, usually because the generated classes start with a lowercase letter. The Cobertura report shows a large number of completely untested classes that we cannot cover because we did not write that code and because of the generation do not have access to the current versions as well. This last point is also present in the test report.
+
+We already tried to exclude them from the report by changing the configuration in the built section of the pom. Although this should work according to the internet, it did not in our case.
+
+\end{document}
