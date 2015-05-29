@@ -4,7 +4,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \title{CheckStyle Explanation}
-\author{Stefan Boodt 4322258\\Arthur Hovenesyan \\Tomas\\Daan Schipper\\Jordy}
+\author{S.A. BOODT, sboodt, 4322258\\T. HEINSOHN HUALA, theinsohnhuala, 4326318\\A. HOVANESYAN, ahovaneyan, 4322711\\D. SCHIPPER, dschipper, 4155270}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -25,8 +25,6 @@ This section describes the general differences. Which consists of differences in
 \item The indentation level is set to 4 because 4 is the default indentation for Java.
 
 \item We disallow the use of whitespaces in generics. So for instance List$<$ Integer $>$ is disallowed.
-
-\item The usage of tabs is allowed for indentation. This is because editors often use them behind the scenes.
 
 \end{itemize}
 
@@ -86,7 +84,7 @@ This section describes the differences between the default configuration and our
 
 \begin{itemize}
 
-\item We added an import order check to check if the imports are alphabetical and there is a white line between the groups. Static imports are ignored for their order in the maven version.
+\item CheckStyle should disallow the import of packages.
 
 \end{itemize}
 
